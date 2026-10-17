@@ -1,0 +1,434 @@
+/* ------------------------------------------------------------------ */
+/* Themes                                                              */
+/* ------------------------------------------------------------------ */
+
+html[data-theme="light-chocolate"] {
+  --bs-body-bg: #f4ecdf;
+  --bs-body-color: #3c2b1b;
+  --bs-body-color-rgb: 60, 43, 27;
+  --bs-secondary-color: rgba(60, 43, 27, 0.7);
+  --bs-secondary-color-rgb: 60, 43, 27;
+  --bs-tertiary-color: rgba(60, 43, 27, 0.5);
+  --bs-tertiary-color-rgb: 60, 43, 27;
+  --bs-emphasis-color: #2c1e11;
+  --bs-emphasis-color-rgb: 44, 30, 17;
+  --bs-heading-color: #2c1e11;
+  --bs-border-color: #ddc9ad;
+  --bs-border-color-translucent: rgba(60, 43, 27, 0.18);
+
+  --bs-primary: #8a5529;
+  --bs-primary-rgb: 138, 85, 41;
+  --bs-primary-text-emphasis: #5b3717;
+  --bs-primary-bg-subtle: #ead7bf;
+  --bs-primary-border-subtle: #c6a47f;
+
+  --bs-link-color: #8a5529;
+  --bs-link-color-rgb: 138, 85, 41;
+  --bs-link-hover-color: #6b3f1d;
+  --bs-link-hover-color-rgb: 107, 63, 29;
+
+  --bs-dark: #4a301b;
+  --bs-dark-rgb: 74, 48, 27;
+  --bs-light: #f8f0e2;
+  --bs-light-rgb: 248, 240, 226;
+
+  --bs-card-bg: #faf4e9;
+  --bs-card-color: #3c2b1b;
+  --bs-card-cap-bg: rgba(60, 43, 27, 0.05);
+  --bs-card-border-color: #e3d2b8;
+
+  --bs-modal-bg: #faf4e9;
+  --bs-modal-border-color: #e3d2b8;
+  --bs-modal-header-border-color: #e3d2b8;
+  --bs-modal-footer-border-color: #e3d2b8;
+
+  --bs-dropdown-bg: #faf4e9;
+  --bs-dropdown-border-color: #e3d2b8;
+  --bs-dropdown-link-color: #3c2b1b;
+  --bs-dropdown-link-hover-bg: #f0e3ce;
+  --bs-dropdown-link-hover-color: #2c1e11;
+  --bs-dropdown-link-active-bg: #8a5529;
+  --bs-dropdown-link-active-color: #fff;
+
+  --bs-list-group-bg: #faf4e9;
+  --bs-list-group-color: #3c2b1b;
+  --bs-list-group-border-color: #e3d2b8;
+  --bs-list-group-action-hover-bg: #f0e3ce;
+  --bs-list-group-action-active-bg: #ead7bf;
+  --bs-list-group-action-active-color: #2c1e11;
+
+  --bs-nav-tabs-border-color: #ddc9ad;
+  --bs-nav-tabs-link-active-bg: #f4ecdf;
+  --bs-nav-tabs-link-active-border-color: #ddc9ad #ddc9ad #f4ecdf;
+  --bs-nav-tabs-link-active-color: #2c1e11;
+
+  --bs-table-bg: transparent;
+  --bs-table-color: #3c2b1b;
+  --bs-table-striped-bg: rgba(60, 43, 27, 0.04);
+  --bs-table-striped-color: #3c2b1b;
+  --bs-table-border-color: #e3d2b8;
+
+  --bs-form-control-bg: #fffdf8;
+  --bs-form-control-color: #3c2b1b;
+  --bs-form-control-border-color: #ddc9ad;
+}
+
+html[data-theme="dark-chocolate"] {
+  --bs-body-bg: #241710;
+  --bs-body-color: #e6d5bf;
+  --bs-body-color-rgb: 230, 213, 191;
+  --bs-secondary-color: rgba(230, 213, 191, 0.75);
+  --bs-secondary-color-rgb: 230, 213, 191;
+  --bs-tertiary-color: rgba(230, 213, 191, 0.5);
+  --bs-tertiary-color-rgb: 230, 213, 191;
+  --bs-emphasis-color: #f3e6d2;
+  --bs-emphasis-color-rgb: 243, 230, 210;
+  --bs-heading-color: #f3e6d2;
+  --bs-border-color: #4d3723;
+  --bs-border-color-translucent: rgba(230, 213, 191, 0.15);
+
+  --bs-primary: #c88f5c;
+  --bs-primary-rgb: 200, 143, 92;
+  --bs-primary-text-emphasis: #e8bc8d;
+  --bs-primary-bg-subtle: #4b3320;
+  --bs-primary-border-subtle: #7a5433;
+
+  --bs-link-color: #d6a273;
+  --bs-link-color-rgb: 214, 162, 115;
+  --bs-link-hover-color: #e8bc8d;
+  --bs-link-hover-color-rgb: 232, 188, 141;
+
+  --bs-dark: #170d07;
+  --bs-dark-rgb: 23, 13, 7;
+  --bs-light: #e9dbc4;
+  --bs-light-rgb: 233, 219, 196;
+
+  --bs-card-bg: #2e1e13;
+  --bs-card-color: #e6d5bf;
+  --bs-card-cap-bg: rgba(230, 213, 191, 0.04);
+  --bs-card-border-color: #4d3723;
+
+  --bs-modal-bg: #2e1e13;
+  --bs-modal-border-color: #4d3723;
+  --bs-modal-header-border-color: #4d3723;
+  --bs-modal-footer-border-color: #4d3723;
+
+  --bs-dropdown-bg: #2e1e13;
+  --bs-dropdown-border-color: #4d3723;
+  --bs-dropdown-link-color: #e6d5bf;
+  --bs-dropdown-link-hover-bg: #3a271a;
+  --bs-dropdown-link-hover-color: #f3e6d2;
+  --bs-dropdown-link-active-bg: #c88f5c;
+  --bs-dropdown-link-active-color: #241710;
+
+  --bs-list-group-bg: #2e1e13;
+  --bs-list-group-color: #e6d5bf;
+  --bs-list-group-border-color: #4d3723;
+  --bs-list-group-action-hover-bg: #3a271a;
+  --bs-list-group-action-active-bg: #4b3320;
+  --bs-list-group-action-active-color: #f3e6d2;
+
+  --bs-nav-tabs-border-color: #4d3723;
+  --bs-nav-tabs-link-active-bg: #241710;
+  --bs-nav-tabs-link-active-border-color: #4d3723 #4d3723 #241710;
+  --bs-nav-tabs-link-active-color: #f3e6d2;
+
+  --bs-table-bg: transparent;
+  --bs-table-color: #e6d5bf;
+  --bs-table-striped-bg: rgba(230, 213, 191, 0.04);
+  --bs-table-striped-color: #e6d5bf;
+  --bs-table-border-color: #4d3723;
+
+  --bs-form-control-bg: #1e140c;
+  --bs-form-control-color: #e6d5bf;
+  --bs-form-control-border-color: #4d3723;
+}
+
+/* ------------------------------------------------------------------ */
+/* SQL editor syntax highlighting                                       */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --sql-kw: #a626a4;
+  --sql-fn: #4078f2;
+  --sql-str: #50a14f;
+  --sql-num: #b76b01;
+  --sql-com: #9da0a8;
+  --sql-quoted: #0184bc;
+}
+
+html[data-bs-theme="dark"] {
+  --sql-kw: #c678dd;
+  --sql-fn: #61afef;
+  --sql-str: #98c379;
+  --sql-num: #d19a66;
+  --sql-com: #5c6370;
+  --sql-quoted: #56b6c2;
+}
+
+.sql-editor-wrap {
+  position: relative;
+}
+
+.sql-highlight {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  tab-size: 8;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  color: var(--bs-body-color);
+  background-color: var(--bs-form-control-bg);
+}
+
+.sql-editor.sql-overlay {
+  position: relative;
+  z-index: 1;
+  background-color: transparent;
+  color: transparent;
+  caret-color: var(--bs-body-color);
+}
+
+.sql-editor:disabled {
+  cursor: not-allowed;
+}
+
+.sql-editor:disabled::placeholder {
+  color: transparent;
+}
+
+.sql-highlight .sql-kw { color: var(--sql-kw); }
+.sql-highlight .sql-fn { color: var(--sql-fn); }
+.sql-highlight .sql-str { color: var(--sql-str); }
+.sql-highlight .sql-num { color: var(--sql-num); }
+.sql-highlight .sql-com { color: var(--sql-com); font-style: italic; }
+.sql-highlight .sql-quoted { color: var(--sql-quoted); }
+
+/* ------------------------------------------------------------------ */
+/* Layout                                                              */
+/* ------------------------------------------------------------------ */
+
+.drop-zone {
+  border: 2px dashed var(--bs-border-color);
+  border-radius: 0.375rem;
+  padding: 1rem;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.drop-zone.dragover {
+  border-color: var(--bs-primary);
+  background-color: var(--bs-primary-bg-subtle);
+}
+
+.result-scroll {
+  max-height: 60vh;
+  overflow: auto;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.25rem;
+}
+
+.result-scroll table {
+  white-space: nowrap;
+}
+
+/* Query tabs */
+#sqlTabs > .tab-pane {
+  display: none;
+}
+
+#sqlTabs > .tab-pane.active {
+  display: block;
+}
+
+.sql-tab-bar {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+
+.sql-tab.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sql-tab-label {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sql-tab-close {
+  background: none;
+  border: 0;
+  padding: 0 0.125rem;
+  color: var(--bs-secondary-color);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+.sql-tab-close:hover {
+  color: var(--bs-danger);
+}
+
+#addTabBtn {
+  cursor: pointer;
+}
+
+/* Table list tree */
+.table-node {
+  padding: 0.5rem 0.75rem;
+}
+
+.table-name {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font-weight: 500;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.table-name:hover {
+  color: var(--bs-link-color);
+}
+
+.table-remove {
+  background: none;
+  border: 0;
+  padding: 0 0.125rem;
+  color: var(--bs-secondary-color);
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.table-remove:hover {
+  color: var(--bs-danger);
+}
+
+.tree-toggle {
+  background: none;
+  border: 0;
+  padding: 0 0.125rem;
+  color: var(--bs-secondary-color);
+  line-height: 1;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.tree-toggle .chevron {
+  transition: transform 0.15s ease;
+}
+
+.table-node.expanded .chevron {
+  transform: rotate(90deg);
+}
+
+.columns-list {
+  margin-left: 1.15rem;
+  border-left: 1px solid var(--bs-border-color);
+  padding-left: 0.75rem;
+}
+
+.column-item {
+  padding: 0.1rem 0;
+  font-size: 0.8rem;
+}
+
+.type-badge {
+  font-family: monospace;
+  font-weight: normal;
+}
+
+#headerModalSheets td input.form-control {
+  min-width: 10rem;
+}
+
+#loadingOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+td {
+  max-width: 32rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.font-monospace {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Autocomplete popup */
+.autocomplete-popup {
+  position: absolute;
+  z-index: 1000;
+  max-height: 16rem;
+  overflow-y: auto;
+  min-width: 16rem;
+  max-width: 26rem;
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.375rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
+  padding: 0.25rem 0;
+}
+
+.autocomplete-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  color: var(--bs-body-color);
+}
+
+.autocomplete-item .ac-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.autocomplete-item .ac-type {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.autocomplete-item.active {
+  background-color: var(--bs-primary-bg-subtle);
+}
