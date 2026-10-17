@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SheetQL — Excel to DuckDB in your browser</title>
+  <script>
+    // Anti-flash: apply the saved theme before the page renders (mirrors theme.js detect()).
+    (function () {
+      var themes = ['light', 'dark', 'light-chocolate', 'dark-chocolate'];
+      var theme = null;
+      try { theme = localStorage.getItem('sheetql.theme'); } catch (e) {}
+      if (themes.indexOf(theme) === -1) {
+        theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          ? 'dark'
+          : 'light';
+      }
+      document.documentElement.setAttribute(
+        'data-bs-theme',
+        (theme === 'dark' || theme === 'dark-chocolate') ? 'dark' : 'light'
+      );
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <script type="module" crossorigin src="/sheetql/assets/index-Bw1zOztX.js"></script>
+  <link rel="stylesheet" crossorigin href="/sheetql/assets/index-DvhAWTIy.css">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark shadow-sm">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1">
+      <span class="text-warning">SheetQL</span>
+    </span>
+    <div class="d-flex align-items-center gap-3">
+      <span class="navbar-text" id="dbStatus">
+        <span class="badge text-bg-secondary" data-i18n="dbInitializing">Initializing DuckDB&hellip;</span>
+      </span>
+      <div class="dropdown">
+        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false" title="Language">
+          &#127760; <span id="langLabel">English</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" id="langMenu"></ul>
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false" title="Theme">
+          &#127912; <span id="themeLabel">Light</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" id="themeMenu"></ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid py-3">
+  <div class="row g-3">
+
+    <!-- Sidebar -->
+    <aside class="col-lg-3">
+      <div class="card mb-3">
+        <div class="card-header" data-i18n="uploadTitle">1. Upload workbook</div>
+        <div class="card-body">
+          <div id="dropZone" class="drop-zone mb-2">
+            <input type="file" id="fileInput" class="d-none"
+                   accept=".xlsx,.xls,.xlsb,.csv,.ods,.parquet,.arrow,.feather,.json,.ndjson">
+            <button type="button" id="pickBtn" class="btn btn-primary w-100" data-i18n="chooseFile">
+              Choose Excel file
+            </button>
+            <button type="button" id="pasteBtn" class="btn btn-outline-secondary w-100 mt-2" data-i18n="pasteData">
+              Paste data
+            </button>
+            <div class="text-muted small mt-2 text-center">
+              <span data-i18n="dropHint">or drop a file here</span><br>(.xlsx, .xls, .xlsb, .csv, .ods, .parquet, .json)
+            </div>
+          </div>
+          <div class="form-text small" data-i18n="multiFileHint">
+            You can upload multiple files to add them as tables.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span data-i18n="tablesTitle">2. Tables</span>
+          <div class="d-flex gap-2">
+            <div class="btn-group">
+              <button type="button" id="tablesDownload" class="btn btn-sm btn-success dropdown-toggle" disabled data-bs-toggle="dropdown" aria-expanded="false" data-i18n="export">Export</button>
+              <ul class="dropdown-menu dropdown-menu-end" id="tablesExportMenu">
+                <li><button type="button" class="dropdown-item" data-format="xlsx" data-i18n="formatExcel">Excel (.xlsx)</button></li>
+                <li><button type="button" class="dropdown-item" data-format="ods" data-i18n="formatOds">ODS (.ods)</button></li>
+              </ul>
+            </div>
+            <button type="button" id="clearBtn" class="btn btn-sm btn-danger" disabled data-i18n="clear">Clear</button>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush" id="tablesList">
+          <li class="list-group-item text-muted small" data-i18n="noTables">No tables yet.</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="col-lg-9">
+      <div id="sqlPane">
+        <ul class="nav nav-tabs mb-2 flex-nowrap sql-tab-bar" id="sqlTabBar" role="tablist">
+          <li class="nav-item" id="addTabItem">
+            <button type="button" id="addTabBtn" class="nav-link" title="New query tab">+</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="sqlTabs">
+          <!-- query tabs are created in JS -->
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Import configuration modal -->
+<div class="modal fade" id="headerModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" data-i18n="loadWorkbook">Load workbook</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="selectAllSheets" checked>
+            <label class="form-check-label" for="selectAllSheets" data-i18n="selectAll">Select all</label>
+          </div>
+        </div>
+        <div id="headerModalSheets"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" id="headerLoadBtn" data-i18n="load">Load</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Paste data modal -->
+<div class="modal fade" id="pasteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" data-i18n="pasteData">Paste data</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label small text-muted" for="pasteName" data-i18n="pasteNameLabel">Table name</label>
+        <input type="text" id="pasteName" class="form-control mb-2" placeholder="pasted">
+        <textarea id="pasteText" class="form-control font-monospace" rows="10" spellcheck="false"></textarea>
+        <div class="form-text small" data-i18n="pasteHint">Paste CSV, TSV, or JSON data</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" id="pasteLoadBtn" data-i18n="load">Load</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div id="loadingOverlay" class="d-none">
+  <div class="spinner-border text-light me-2" role="status"></div>
+  <span id="loadingText" class="text-light" data-i18n="loading">Loading&hellip;</span>
+</div>
+
+<!-- Toasts -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="toast" class="toast align-items-center text-bg-dark border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body" id="toastBody"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
