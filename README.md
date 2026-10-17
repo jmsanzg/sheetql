@@ -66,4 +66,4 @@ The database is in-memory only — nothing survives a reload, and nothing is eve
 
 ## License
 
-Private project — no license specified.
+Licensed under the [GNU General Public License, version 2](./LICENSE).
