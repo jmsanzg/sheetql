@@ -67,7 +67,7 @@ The worker and wasm must stay paired (e.g. `duckdb-mvp.wasm` with `duckdb-browse
 
 - `handleFile(file)` routes by extension. Parquet/Arrow/Feather/JSON/NDJSON (`STRUCTURED_EXTS`) go to DuckDB's native readers (`read_parquet`, `read_json_auto`, `insertArrowFromIPCStream`) via `loadStructuredFile`. Everything else (Excel/CSV/ODS) is parsed by SheetJS in `parseWorkbook` and then shown in the sheet-selection modal; on confirm, `loadConfiguredWorkbook` creates the tables.
 - Pasted data: `loadPastedData` sniffs the text — JSON goes to `loadJsonText` (`read_json_auto`), CSV/TSV is parsed by SheetJS and inserted via `createTable`/`insertRows`.
-- Sheets → tables: names are `sanitizeName`d (`[^A-Za-z0-9_]` → `_`, numeric-prefixed names get `t_`) and deduped with a `_2`, `_3`… suffix via `nextTableName`. Column types are inferred per column (`inferType`, restricted to `TYPE_OPTIONS`).
+- Sheets → tables: names default to the sheet name (or to the file name for single-sheet CSV/TSV files) and can be edited in the import modal. They are `sanitizeName`d (`[^A-Za-z0-9_]` → `_`, numeric-prefixed names get `t_`) and deduped with a `_2`, `_3`… suffix against existing tables. Column types are inferred per column (`inferType`, restricted to `TYPE_OPTIONS`).
 - Identifiers are quoted with `quoteIdent`; values are inserted via string literals (SQL escaping in `formatValue`), batched by `INSERT_BATCH` rows.
 
 ### Query

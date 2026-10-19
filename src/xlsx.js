@@ -75,12 +75,19 @@ function computeColumnsAndTypes(aoa, maxCols, useHeader) {
 export async function parseWorkbook(file) {
   const buf = await file.arrayBuffer();
   const wb = XLSX.read(new Uint8Array(buf), { type: 'array', cellDates: true });
+  const ext = fileExt(file.name);
+  // CSV/TSV files hold a single sheet, so use the file name for it instead of
+  // the generic name SheetJS assigns (usually "Sheet1").
+  const singleSheetName = ext === '.csv' || ext === '.tsv'
+    ? file.name.replace(/\.[^.]+$/, '')
+    : null;
   const sheets = [];
   for (const sheetName of wb.SheetNames) {
     const ws = wb.Sheets[sheetName];
     const aoa = XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: null });
+    const name = singleSheetName != null ? singleSheetName : sheetName;
     if (!aoa.length) {
-      toast(t('skippedEmpty', { sheet: sheetName }));
+      toast(t('skippedEmpty', { sheet: name }));
       continue;
     }
 
@@ -92,7 +99,8 @@ export async function parseWorkbook(file) {
 
     const base = computeColumnsAndTypes(aoa, maxCols, true);
     sheets.push({
-      sheetName,
+      sheetName: name,
+      tableName: sanitizeName(name),
       aoa,
       maxCols,
       useHeader: true,
@@ -167,13 +175,26 @@ function buildSheetCard(sheet, idx) {
     updateSelectAllState();
   });
 
-  const nameEl = document.createElement('strong');
-  nameEl.className = 'text-truncate flex-grow-1';
-  nameEl.textContent = sheet.sheetName;
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.className = 'form-control form-control-sm flex-grow-1';
+  nameInput.style.maxWidth = '22rem';
+  nameInput.value = sheet.tableName != null ? sheet.tableName : sanitizeName(sheet.sheetName);
+  nameInput.title = t('tableNameLabel');
+  nameInput.setAttribute('aria-label', t('tableNameLabel'));
+  nameInput.addEventListener('input', () => {
+    sheet.tableName = nameInput.value;
+  });
+  nameInput.addEventListener('change', () => {
+    const clean = sanitizeName(nameInput.value);
+    nameInput.value = clean;
+    sheet.tableName = clean;
+  });
+
   const badge = document.createElement('span');
-  badge.className = 'badge text-bg-secondary rounded-pill flex-shrink-0';
+  badge.className = 'badge text-bg-secondary rounded-pill flex-shrink-0 ms-auto';
   head.appendChild(check);
-  head.appendChild(nameEl);
+  head.appendChild(nameInput);
   head.appendChild(badge);
   card.appendChild(head);
 
@@ -275,19 +296,20 @@ export function setAllSheetsSelected(checked) {
 export async function loadConfiguredWorkbook(sheets) {
   setLoading(true, t('loading'));
   try {
-    const usedNames = new Set();
+    const usedNames = new Set(state.tables.map((tbl) => tbl.name));
     const created = [];
 
     for (const sheet of sheets) {
       if (sheet.selected === false) continue;
       const dataRows = sheet.useHeader ? sheet.aoa.slice(1) : sheet.aoa;
 
-      let tableName = sanitizeName(sheet.sheetName);
+      const baseName = sanitizeName(sheet.tableName != null ? sheet.tableName : sheet.sheetName);
+      let tableName = baseName;
       let k = 2;
-      while (usedNames.has(tableName)) tableName = `${sanitizeName(sheet.sheetName)}_${k++}`;
+      while (usedNames.has(tableName)) tableName = `${baseName}_${k++}`;
       usedNames.add(tableName);
 
-      setLoading(true, t('loadingSheet', { sheet: sheet.sheetName, n: dataRows.length }));
+      setLoading(true, t('loadingSheet', { sheet: tableName, n: dataRows.length }));
       await createTable(tableName, sheet.columns, sheet.types);
       await insertRows(tableName, sheet.columns.length, sheet.types, dataRows);
 
